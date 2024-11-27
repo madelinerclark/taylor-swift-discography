@@ -1,6 +1,5 @@
 import os
 import sys
-from datetime import date
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
@@ -10,18 +9,10 @@ import sqlite3 as sql
 from matplotlib import rcParams
 
 from src import charts
+from src import streamlit_mods
 from src import toolkit
 
-st.set_page_config(page_title="Genius Page Views")
-
-st.markdown(
-    """
-    <style>
-        section.main > div {max-width:65rem}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.set_page_config(page_title='Genius Page Views')
 
 connection = sql.connect('data/taylor_swift.db')
 cursor = connection.cursor()
@@ -34,24 +25,11 @@ rcParams, custom_params = toolkit.chart_params(rcParams)
 temp_table = toolkit.sql_to_string('views_temp_table.sql')
 cursor.executescript(temp_table)
 
-today = date(2024, 6, 27)
-today_format = today.strftime("%B %-d, %Y")
+streamlit_mods.increase_width()
 
 def main():
-    sidebar()
+    streamlit_mods.get_sidebar()
     content()
-
-def sidebar():
-    with st.sidebar:
-        st.image('assets/img/TheTorturedPoetsDepartment.jpg')
-        st.markdown("""
-        <h3 style="text-align: center;">Taylor Swift - Song Discography</h3>
-
-        <p style="text-align: center;">This is an ongoing, open-source project. Follow along on <a href='https://github.com/madroscla/taylor-swift-discography'>Github</a>!</p>
-
-        <p style="text-align: center;">Data was last updated on <b>{}</b>.</p>
-        
-        """.format(today_format), unsafe_allow_html=True)
 
 @st.cache_data
 def content():
@@ -78,9 +56,9 @@ def content():
                                              ['#4e148c', '#2c0735'], True, 'total_page_views_distribution.png')
     st.pyplot(views_fig)
 
-    with st.expander("See discussion"):
+    with st.expander('See discussion'):
         st.write("""
-            Despite being the most recently released album, "The Tortured Poets Department" has taken the lead at nearly 51 million total page views, which is over 22 million more page views than "folklore" has in second place. "Midnights" is in third place with 24 million and "Lover" in fouth with 20.1 million views. From her studio albums, her debut "Taylor Swift" has the least amount of views at 2.2 million, with her song collaborations with other artists being just above that at 2.4 million total views. Of her rerecordings, "Red (Taylor's Version)" is the most popular with 10.1 million views, while "Fearless (Taylor's Version)" is the least popular at 3.4 million views. It's possible to conclude from this graph that "The Tortured Poets Department" is Taylor Swift's most popular album on Genius in terms of traffic to the album's songs.
+            Despite being the most recently released album, *The Tortured Poets Department* has taken the lead at nearly 54.3 million total page views, which is over 25 million more page views than *folklore* has in second place. *Midnights* is in third place with 24.8 million and *Lover* in fouth with 20.8 million views. From her studio albums, her debut *Taylor Swift* has the least amount of views at 2.4 million, with her song collaborations with other artists being just above that at 2.8 million total views. Of her rerecordings, *Red (Taylor's Version)* is the most popular with 10.9 million views, while *Fearless (Taylor's Version)* is the least popular at 3.6 million views. It's possible to conclude from this graph that *The Tortured Poets Department* is Taylor Swift's most popular album on Genius in terms of traffic to the album's songs.
 
             There are a few problems with this approach, as illustrated by the accompanying histogram: the data is skewed to the right, with most song pages having under 1 million views. Because of this, these totals are most likely influenced by outliers, or individual songs with high amounts of views. To counteract that, we plot the distributions and see how the medians compare to one another.
             """)
@@ -89,11 +67,11 @@ def content():
                                                  'Page Views', 'Album/Song Era', '#7D7C78', '#3A3633', True, 'page_view_box_distribution.png')
     st.pyplot(view_box_fig)
 
-    with st.expander("See discussion"):
+    with st.expander('See discussion'):
         st.write("""
-            All of Taylor's eras are influenced in some capacity by outliers in terms of page views; all of their means (represented by white dots) fall to the right of their medians (represented by the vertical bars in the boxes). The most egregious example is "Red (Taylor's Version)," whose song "All Too Well (10 Minute Version) (Taylor’s Version) [From The Vault]" is the most viewed Taylor Swift song on Genius at 4.9 million views, making up nearly half of its calculated page view totals from the previous visualization.
+            All of Taylor's eras are influenced in some capacity by outliers in terms of page views; all of their means (represented by white dots) fall to the right of their medians (represented by the vertical bars in the boxes). The most egregious example is *Red (Taylor's Version),* whose song "All Too Well (10 Minute Version) (Taylor’s Version) [From The Vault]" is the most viewed Taylor Swift song on Genius at 5.4 million views, making up nearly half of its calculated page view totals from the previous visualization.
 
-            Looking at medians, both "folklore" and "The Tortured Poets Department"  have the highest, meaning on average songs from both "folklore" and "The Tortured Poets Department" get more page views than songs from other albums or eras, the median being around 1.5 million views per page. With this statistic, we can argue that both "folklore" and "The Tortured Poets Department" are the most popular Taylor Swift album on Genius, which matches the conclusion of the previous approach (though with the two albums tied in this approach). However, "reputation" has the third highest median of around 1.1 million views per song page, which differs from the first approach having "reputation" being the sixth most popular at 17.5 million total page views. This means that songs from "reputation" on average get more page views than other song pages from different albums/eras, even if the total for the album is lower overall.
+            Looking at medians, *The Tortured Poets Department*  has the highest at around 1.6 million followed by *folklore* at around 1.4 million, meaning on average songs from both *folklore* and *The Tortured Poets Department* get more page views than songs from other albums or eras. With this statistic, we can argue that *The Tortured Poets Department* is the most popular Taylor Swift album on Genius with *folklore* in second place, which matches the conclusion of the previous approach. However, *reputation* has the third highest median of around 1.1 million views per song page, which differs from the first approach having *reputation* being the sixth most popular at 18 million total page views. This means that songs from *reputation* on average get more page views than other song pages from different albums/eras, even if the total for the album is lower overall.
 
             In terms of lowest medians, all four of Taylor's rercorded albums have very low median views-per-page, each having around 0.1 million (100,000) per song, and all rerecorded albums have lower medians than their original counterparts. This could be due to how recently the albums were released, as the original albums have existed on Genius for much longer, but in my opinion it's more likely that Genius suggests the song pages from the original albums more often than it does for their rerecorded counterparts when the user searches for the song title. The only era that is lower than the rerecorded albums is Taylor's non-album songs, such as movie soundtrack releases or promotional singles, which have the lowest median views-per-page.
             """)

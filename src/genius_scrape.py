@@ -1,4 +1,4 @@
-"""Functions breaking down the webbscraping process to format resulting dataframe."""
+"""Functions breaking down the webscraping process to format resulting dataframe."""
 
 import csv
 import re

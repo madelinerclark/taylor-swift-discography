@@ -1,41 +1,20 @@
 import os
 import sys
-from datetime import date
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 import pandas as pd
 import streamlit as st
 
+from src import streamlit_mods
+
 st.set_page_config(page_title="About the Data")
 
-st.markdown(
-    """
-    <style>
-        section.main > div {max-width:65rem}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-today = date(2024, 6, 27)
-today_format = today.strftime("%B %-d, %Y")
+streamlit_mods.increase_width()
 
 def main():
-    sidebar()
+    streamlit_mods.get_sidebar()
     content()
-
-def sidebar():
-    with st.sidebar:
-        st.image('assets/img/TheTorturedPoetsDepartment.jpg')
-        st.markdown("""
-        <h3 style="text-align: center;">Taylor Swift - Song Discography</h3>
-
-        <p style="text-align: center;">This is an ongoing, open-source project. Follow along on <a href='https://github.com/madroscla/taylor-swift-discography'>Github</a>!</p>
-
-        <p style="text-align: center;">Data was last updated on <b>{}</b>.</p>
-        
-        """.format(today_format), unsafe_allow_html=True)
 
 @st.cache_data
 def content():
@@ -48,13 +27,13 @@ def content():
     st.image('figures/db_schema.png')
 
     st.markdown("""    
-    Please check out [this notebook on the project's Github](https://github.com/madroscla/taylor-swift-discography/blob/main/notebooks/data_collection.ipynb) for more details on the data was scraped. 
+    Please check out [this notebook on the project's Github](https://github.com/madelinerclark/taylor-swift-discography/blob/main/notebooks/data_collection.ipynb) for more details on the data was scraped. 
     """)
 
     st.markdown("""
     ## Data Preview
 
-    The database used in this application as well as the pickle versions of the data can be found on the [project's Github](https://github.com/madroscla/taylor-swift-discography/tree/main/data). The data is also available in CSV format on [Kaggle](https://www.kaggle.com/datasets/madroscla/taylor-swift-released-song-discography-genius) for public use under the CC BY-SA 4.0 license.
+    The database used in this application as well as the pickle versions of the data can be found on the [project's Github](https://github.com/madelinerclark/taylor-swift-discography/tree/main/data). The data is also available in CSV format on [Kaggle](https://www.kaggle.com/datasets/madroscla/taylor-swift-released-song-discography-genius) for public use under the CC BY-SA 4.0 license.
     """)
 
     df = pd.read_pickle('data/taylor_swift_clean.pkl')

@@ -9,6 +9,7 @@ This repository contains an ongoing project to compile and analyze Taylor Swift'
 
 ## Directory
 * **[app](./app)**: contains application files for the Streamlit app
+  * **[pages](./app/pages)**: contains application files for additional pages in Streamlit app
 * **[assets](./assets)**: contains third-party assets
   * **[fonts](./assets/fonts)**: contains font `ttf` files used in charts (courtesy of [Google Fonts](https://fonts.google.com/))
   * **[img](./assets/img)**: contains image files used in app
