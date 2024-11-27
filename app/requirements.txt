@@ -1,4 +1,4 @@
 pandas==2.2.3
-matplotlib==3.9.3
+matplotlib==3.9.2
 pysqlite3-binary
 seaborn==0.13.2
