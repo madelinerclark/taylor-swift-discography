@@ -3,25 +3,24 @@
 import matplotlib.font_manager as fm
 import pandas as pd
 
-eras = ['Taylor Swift',
-        'Fearless',
-        'Speak Now',
-        'Red',
-        '1989',
-        'reputation',
-        'Lover',
-        'folklore',
-        'evermore',
-        'Fearless (TV)',
-        'Red (TV)',
-        'Midnights',
-        'Speak Now (TV)',
-        '1989 (TV)',
-        'TTPD',
-        'Non-Album Songs',
-        'Other Artist Songs']
-
 def eras_order():
+    eras = ['Taylor Swift',
+            'Fearless',
+            'Speak Now',
+            'Red',
+            '1989',
+            'reputation',
+            'Lover',
+            'folklore',
+            'evermore',
+            'Fearless (TV)',
+            'Red (TV)',
+            'Midnights',
+            'Speak Now (TV)',
+            '1989 (TV)',
+            'TTPD',
+            'Non-Album Songs',
+            'Other Artist Songs']
     return eras
 
 def sql_to_string(sql_file_name):
